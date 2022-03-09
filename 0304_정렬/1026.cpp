@@ -35,7 +35,6 @@ int main() {
     cin >> N;
     arr_a.assign(N, 0);
     arr_b.assign(N, 0);
-
     for (int i = 0; i < N; i++) {
         cin >> arr_a[i];
     }

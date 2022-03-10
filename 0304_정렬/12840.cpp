@@ -7,6 +7,9 @@
 using namespace std;
 
 int main() {
+    ios_base :: sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
     int h, m, s, q, T, c;
 
     //입력
@@ -16,15 +19,18 @@ int main() {
         cin >> T;
         if (T == 1) {
             cin >> c;
-            time += c;
+            time = (time + c) % 86400;
         }
         else if (T == 2) {
             cin >> c;
-            time -= c;
+            time = (time - c) % 86400;
+            if(time < 0) {
+                time += 86400;
+            }
         }
         else {
             //출력
-            cout << (time / 3600) % 24  << ' ' << (time % 3600) / 60 << ' ' << (time % 3600) % 60 << '\n';
+            cout << (time / 3600) % 24  << ' ' << (time / 60) % 60 << ' ' << time % 60 << '\n';
         }
     }
     return 0;

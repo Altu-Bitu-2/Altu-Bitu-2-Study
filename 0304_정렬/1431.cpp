@@ -10,10 +10,7 @@
 using namespace std;
 
 
-vector<string> guitar;
-
-
-bool cmp(string& a, string& b) {
+bool cmp(const string& a, const string& b) {
     int sum_a = 0;
     int sum_b = 0;
     if (a.length() != b.length()) {
@@ -34,6 +31,7 @@ bool cmp(string& a, string& b) {
 
 int main() {
     int N;
+    vector<string> guitar;
 
     //입력
     cin >> N;

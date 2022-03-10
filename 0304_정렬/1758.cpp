@@ -6,17 +6,9 @@
 using namespace std;
 
 
-vector<int> arr;
-
-
-bool compare(int i, int j) {
-    return j < i;
-}
-
-
 //팁의 최댓값을 구하는 함수
-int findMax(int n) {
-    int total_tip = 0;
+long long int findMax(int n, vector<int> arr) {
+    long long int total_tip = 0;
     int tip = 0;
     for(int i = 1; i <= n; i++) {
         tip = arr[i - 1] - (i - 1);
@@ -29,7 +21,9 @@ int findMax(int n) {
 
 
 int main() {
-    int N, max;
+    int N;
+    long long int max_tip;
+    vector<int> arr;
 
     //입력
     cin >> N;
@@ -38,11 +32,11 @@ int main() {
         cin >> arr[i];
     }
 
-    sort(arr.begin(), arr.end(), compare);
-    max = findMax(N);
+    sort(arr.begin(), arr.end(), greater<>());
+    max_tip = findMax(N, arr);
 
     //출력
-    cout << max << '\n';
+    cout << max_tip << '\n';
 
     return 0;
 }

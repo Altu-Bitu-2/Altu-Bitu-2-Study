@@ -10,19 +10,10 @@
 using namespace std;
 
 
-vector<int> arr_a, arr_b;
-
-
-bool compare(int i, int j) {
-    return j < i;
-}
-
-
-int getMin(int n) {
+int getMin(int n, vector<int> a, vector<int> b) {
     int min = 0;
     for (int i = 0; i < n; i++) {
-        min += arr_a[i] * arr_b[i];
-        cout << min << '\n';
+        min += a[i] * b[i];
     }
     return min;
 }
@@ -30,6 +21,7 @@ int getMin(int n) {
 
 int main() {
     int N, result = 0;
+    vector<int> arr_a, arr_b;
 
     //입력
     cin >> N;
@@ -43,8 +35,8 @@ int main() {
     }
 
     sort(arr_a.begin(), arr_a.end()); //오름차순 정렬
-    sort(arr_b.begin(), arr_b.end(), compare); //내림차순 정렬
-    result = getMin(N);
+    sort(arr_b.begin(), arr_b.end(), greater<>()); //내림차순 정렬
+    result = getMin(N, arr_a, arr_b);
 
     //출력
     cout << result << '\n';

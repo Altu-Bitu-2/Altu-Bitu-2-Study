@@ -1,10 +1,5 @@
-//
-// Created by kjy82 on 2022-03-10.
-//
-
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 
 using namespace std;
@@ -14,10 +9,9 @@ vector<int> card;
 
 
 void swapCard(int start, int end) {
-    for (int i = start - 1, n = 0; i < end - 1; i++, n++) {
-        for (int j = start - 1; j < end - n - 1; j++) {
-            swap(card[j], card[j + 1]);
-        }
+    for(int i = start - 1, n = 0; i < (start + end) / 2; i++, n++) {
+        if (start + n - 1 == end - n - 1) break;
+        swap(card[start + n - 1], card[end - n - 1]);
     }
 }
 

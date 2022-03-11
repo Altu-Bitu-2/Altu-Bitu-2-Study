@@ -21,8 +21,6 @@ int calSum(const string &a) {
 
 
 bool cmp(const string& a, const string& b) {
-    int sum_a = 0;
-    int sum_b = 0;
     if (a.length() != b.length()) {
         return a.length() < b.length();
     }

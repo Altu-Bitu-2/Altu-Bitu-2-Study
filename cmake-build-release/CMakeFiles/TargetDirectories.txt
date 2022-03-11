@@ -1,0 +1,2 @@
+C:/Users/kjy82/Documents/GitHub/Altu-Bitu-2-Study/cmake-build-release/CMakeFiles/edit_cache.dir
+C:/Users/kjy82/Documents/GitHub/Altu-Bitu-2-Study/cmake-build-release/CMakeFiles/rebuild_cache.dir

@@ -10,20 +10,24 @@
 using namespace std;
 
 
+int calSum(const string &a) {
+    int sum = 0;
+    for (int i = 0; i < a.length(); i++) {
+        if (isdigit(a[i]))
+            sum += a[i] - '0';
+    }
+    return sum;
+}
+
+
 bool cmp(const string& a, const string& b) {
     int sum_a = 0;
     int sum_b = 0;
     if (a.length() != b.length()) {
         return a.length() < b.length();
     }
-    for (int i = 0; i < a.length(); i++) {
-        if (isdigit(a[i]))
-            sum_a += a[i];
-        if (isdigit(b[i]))
-            sum_b += b[i];
-    }
-    if (sum_a != sum_b) {
-        return sum_a < sum_b;
+    if (calSum(a) != calSum(b)) {
+        return calSum(a) < calSum(b);
     }
     return a < b;
 }

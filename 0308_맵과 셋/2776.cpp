@@ -1,16 +1,12 @@
+//
+// Created by kjy82 on 2022-03-14.
+//
+
 #include <iostream>
 #include <unordered_set>
 
 
 using namespace std;
-
-
-void search_num(unordered_set<int> s, int i) {
-    if (s.find(i) == s.end()) //수첩2의 숫자가 수첩 1에 있는 경우
-        cout << 0 << '\n';
-    else
-        cout << 1 << '\n';
-}
 
 
 int main() {
@@ -23,7 +19,7 @@ int main() {
 
     //입력
     cin >> T; //테스트케이스의 개수
-    while(T--) {
+    while (T--) {
         //수첩 1
         cin >> N;
         while (N--) {
@@ -34,7 +30,10 @@ int main() {
         cin >> M;
         while (M--) {
             cin >> input;
-            search_num(note1, input);
+            if (note1.find(input) == note1.end()) //수첩2의 숫자가 수첩 1에 없는 경우
+                cout << 0 << '\n';
+            else
+                cout << 1 << '\n';
         }
     }
     return 0;

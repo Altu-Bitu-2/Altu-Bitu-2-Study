@@ -35,6 +35,7 @@ int main() {
             else
                 cout << 1 << '\n';
         }
+        note1.clear(); //테스트케이스 누적되지 않도록 note1 비움
     }
     return 0;
 }

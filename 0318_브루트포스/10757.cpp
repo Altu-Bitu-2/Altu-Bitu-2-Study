@@ -21,20 +21,29 @@ int main() {
     reverse(B.begin(), B.end());
 
     //연산
-    //A,B 중 길이가 작은 문자열까지 먼저 계산
-    for (int i = 0; i < min(A.size(), B.size()); i++) {
-        if (A[i] + B[i] - 2 * '0' + answer[i] > 9) {
-            answer[i + 1] = 1;
+    for (int i = 0; i < max(A.size(), B.size()); i++) {
+        //A,B 중 길이가 작은 문자열까지 먼저 계산
+        if (i < min(A.size(), B.size())) {
+            if (A[i] + B[i] - 2 * '0' + answer[i] > 9) {
+                answer[i + 1] = 1;
+            }
+            answer[i] = (A[i] + B[i] - 2 * '0' + answer[i]) % 10;
         }
-        answer[i] = (A[i] + B[i] - 2 * '0' + answer[i]) % 10;
-    }
-    //그 이후 남은 문자열 더해줌
-    for (int j = min(A.size(), B.size()); j < max(A.size(), B.size()); j++) {
-        if (A.size() > B.size()) {
-            answer[j] += A[j] - '0';
-        }
+            //그 이후 남은 문자열 더해줌
+            //남은 문자열도 carry 있는 경우 고려해줘야 됨!
         else {
-            answer[j] += B[j] - '0';
+            if (A.size() > B.size()) {
+                if (A[i] - '0' + answer[i] > 9) {
+                    answer[i + 1] = (A[i] - '0' + answer[i]) / 10;
+                }
+                answer[i] = (A[i] - '0' + answer[i]) % 10;
+            }
+            else {
+                if (B[i] - '0' + answer[i] > 9) {
+                    answer[i + 1] = (B[i] - '0' + answer[i]) / 10;
+                }
+                answer[i] = (B[i] - '0' + answer[i]) % 10;
+            }
         }
     }
 

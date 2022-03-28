@@ -22,7 +22,7 @@ int checkGroupWord(map<char, bool> m, string word) {
 
 int main() {
     int N, count = 0;			//N:단어의 개수, count: 그룹 단어의 개수
-    vector<string> words;		//입력되는 단어들
+    string word;		        //입력되는 단어
     map<char, bool> m;			//알파벳과 그 알파벳이 등장했는지 여부를 저장할 map
 
     //알파벳들 m에 담아줌
@@ -32,10 +32,9 @@ int main() {
 
     //입력
     cin >> N;
-    words.assign(N, " ");
     for (int i = 0; i < N; i++) {
-        cin >> words[i];
-        count += checkGroupWord(m, words[i]);
+        cin >> word;
+        count += checkGroupWord(m, word);
     }
 
     //출력

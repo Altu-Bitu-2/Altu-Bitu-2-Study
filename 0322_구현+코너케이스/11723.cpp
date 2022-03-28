@@ -3,41 +3,33 @@
 //
 
 #include <iostream>
-#include <set>
+#include <vector>
 #include <string>
 
 using namespace std;
 
-set<int> S;
+vector<bool> S(21, false);
+//있는지 없는지 확인만 하기 위해 bool형 배열 만든다
+//있으면 true, 없으면 false
 
 void addX(int x) { //S에 x를 추가
-    S.insert(x);
+    S[x] = true;
 }
 
 void removeX(int x) { //S에서 x를 제거
-    if(S.find(x) != S.end())
-        S.erase(x);
+    S[x] = false;
 }
 
 int checkX(int x) { //S에 x가 있는지 확인
-    if (S.find(x) != S.end())
-        return 1; //있으면 1 리턴
-    return 0;
+    return S[x];
 }
 
 void toggleX(int x) { //S에 x가 있으면 제거, 없으면 추가
-    if (S.find(x) != S.end()) {
-        S.erase(x);
+    if (S[x] == true) {
+        S[x] = false;
         return;
     }
-    S.insert(x);
-}
-
-void all() { //S를 {1, 2, ..., 20}으로 바꾼다
-    S.clear();
-    for (int i = 0; i < 20; i++) {
-        S.insert(i + 1);
-    }
+    S[x] = true;
 }
 
 int main() {
@@ -52,27 +44,28 @@ int main() {
     cin >> M;
     while (M--) {
         cin >> calculation;
+        if (calculation == "all") {
+            S.assign(21, true); //S에 1~20 모두 추가 (모두 true)
+            continue;
+        }
+        else if (calculation == "empty") {
+            S.assign(21, false); //S의 모든 원소 삭제 (모두 false)
+            continue;
+        }
+
+        cin >> num;
         if (calculation == "add") {
-            cin >> num;
             addX(num);
         }
         else if (calculation == "remove") {
-            cin >> num;
             removeX(num);
         }
         else if (calculation == "check") {
-            cin >> num;
             cout << checkX(num) << '\n';
         }
         else if (calculation == "toggle") {
-            cin >> num;
             toggleX(num);
         }
-        else if (calculation == "all") {
-            all();
-        }
-        else
-            S.clear(); //S를 공집합으로
     }
 
     return 0;

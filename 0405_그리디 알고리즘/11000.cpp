@@ -4,24 +4,12 @@
 
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <algorithm>
 
 using namespace std;
 
 typedef pair<int, int> ci;
-
-void maxLecture(int n, vector<ci>& classroom) {
-    int prev_end = 0;	//직전 강의가 끝난 시간
-    for (int i = 0; i < classroom.size(); i++) {
-        int end = classroom[i].first;		//강의 끝난 시간
-        int start = classroom[i].second;	//강의 시작 시간
-        if (start >= prev_end) {	//강의 시작 시간 >= 직전 강의 끝난 시간
-            prev_end = end;
-            classroom.erase(classroom.begin() + i);
-            i--;	//erase 사용하면서 삭제한 원소 뒤의 인덱스들이 1씩 줄었으므로 i 감소시킨다
-        }
-    }
-}
 
 int main() {
     ios_base::sync_with_stdio(false);
@@ -33,21 +21,28 @@ int main() {
     //입력
     cin >> n;
     vector<ci> classroom(n, { 0,0 });
+    priority_queue<int, vector<int>, greater<>> end_time;	//강의 끝나는 시간 내림차순으로 저장할 우선순위 큐
 
     for (int i = 0; i < n; i++) {
-        cin >> classroom[i].second >> classroom[i].first;
+        cin >> classroom[i].first >> classroom[i].second;
     }
-    //빨리 끝나는 순서대로, 빨리 시작하는 순서대로 정렬
+    //빨리 시작하는 순서대로 정렬
     sort(classroom.begin(), classroom.end());
+    end_time.push(classroom[0].second);
 
     //연산
-    while (!classroom.empty()) {
-        maxLecture(n, classroom);
-        count++;
+    for (int i = 1; i < n; i++) {
+        if (end_time.top() <= classroom[i].first) {	//가장 빨리 끝나는 강의 시간 <= 강의 시작 시간일때
+            end_time.pop(); //뒤에 강의 추가되니까 pop
+            end_time.push(classroom[i].second); //추가된 강의의 끝나는 시간을 push
+        }
+        else {
+            end_time.push(classroom[i].second);
+        }
     }
 
     //출력
-    cout << count;
+    cout << end_time.size() << '\n';
 
     return 0;
 }

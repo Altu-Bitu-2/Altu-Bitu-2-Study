@@ -14,19 +14,6 @@ int dc[4] = { 1, 0, 1, 1 };
 //연속된 바둑알의 개수를 확인하는 함수
 int checkContinuity(int i, int j, int k, vector<vector<int>>& board) {
     int cnt = 1;
-    if (j > board.size() - 5) {
-        return 0;
-    }
-    if (k == 2) {
-        if (i > board.size() - 5) {
-            return 0;
-        }
-    }
-    else if (k == 3) {
-        if (i < 4) {
-            return 0;
-        }
-    }
 
     for (int n = 0; n < 6; n++) { //최대 6개까지 연속된 바둑알 수 센다
         if (i + (n + 1) * dr[k] > board.size() - 1 || i + (n + 1) * dr[k] < 0 || j + (n + 1) * dc[k] > board.size() - 1)

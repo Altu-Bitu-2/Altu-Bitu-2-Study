@@ -8,61 +8,48 @@
 using namespace std;
 
 typedef pair<int, int> ci;
+int dr[4] = { 0, 1, 1, -1 };
+int dc[4] = { 1, 0, 1, 1 };
 
-//가로로 같은 색의 바둑알이 5개 놓인 경우 확인
-int horizontal(int i, int j, vector<vector<int>>& board) {
+//연속된 바둑알의 개수를 확인하는 함수
+int checkContinuity(int i, int j, int k, vector<vector<int>>& board) {
+    int cnt = 1;
     if (j > board.size() - 5) {
         return 0;
     }
-    for (int y = j + 1; y < j + 5; y++) {
-        if (board[i][y] != board[i][y - 1]) {
+    if (k == 2) {
+        if (i > board.size() - 5) {
             return 0;
         }
     }
-    return 1;
-}
+    else if (k == 3) {
+        if (i < 4) {
+            return 0;
+        }
+    }
 
-//세로로 같은 색의 바둑알이 5개 놓인 경우 확인
-int vertical(int i, int j, vector<vector<int>>& board) {
-    if (i > board.size() - 5) {
-        return 0;
-    }
-    for (int x = i + 1; x < i + 5; x++) {
-        if (board[x][j] != board[x - 1][j]) {
-            return 0;
+    for (int n = 0; n < 6; n++) { //최대 6개까지 연속된 바둑알 수 센다
+        if (i + (n + 1) * dr[k] > board.size() - 1 || i + (n + 1) * dr[k] < 0 || j + (n + 1) * dc[k] > board.size() - 1)
+            break;
+        if (board[i + n * dr[k]][j + n * dc[k]] == board[i + (n + 1) * dr[k]][j + (n + 1) * dc[k]]) {
+            cnt++;
         }
+        else
+            break;
     }
-    return 1;
-}
 
-//오른쪽 아래 대각선으로 같은 색의 바둑알이 5개 놓인 경우 확인
-int diagonal_right(int i, int j, vector<vector<int>>& board) {
-    if (i > board.size() - 5  || j > board.size() - 5) {
-        return 0;
-    }
-    for (int x = i + 1, y = j + 1; x < i + 5 && y < j + 5; x++, y++) {
-        if (board[x][y] != board[x - 1][y - 1]) {
+    if (cnt == 5) {
+        //반대 방향에 같은 색의 바둑알 있는 경우
+        if (i - dr[k] > 0 && i - dr[k] < board.size() && j - dr[k] > 0 && j - dr[k] < board.size() && board[i][j] == board[i - dr[k]][j - dr[k]]) {
             return 0;
         }
+        return board[i][j];
     }
-    return 1;
-}
-
-//오른쪽 아래 대각선으로 같은 색의 바둑알이 5개 놓인 경우 확인
-int diagonal_left(int i, int j, vector<vector<int>>& board) {
-    if (i > board.size() - 5 || j < 4) {
-        return 0;
-    }
-    for (int x = i + 1, y = j - 1; x < i + 5 && y > j - 5; x++, y--) {
-        if (board[x][y] != board[x - 1][y + 1]) {
-            return 0;
-        }
-    }
-    return 1;
+    return 0;
 }
 
 //승부 결과를 확인하는 함수
-pair<int, ci> checkWinner(vector<vector<int>>& board) {
+pair<int, ci> findWinner(vector<vector<int>>& board) {
     int result = 0, location_x = -1, location_y = -1;
 
     for (int i = 0; i < board.size(); i++) {
@@ -70,19 +57,13 @@ pair<int, ci> checkWinner(vector<vector<int>>& board) {
             if (board[i][j] == 0)
                 continue;
 
-            //가로, 세로, 대각선 오른쪽 아래, 대각선 왼쪽 아래로 같은 색의 바둑알이 5개 연속 놓인 경우가 있을 때
-            if (horizontal(i, j, board) || vertical(i, j, board) || diagonal_right(i, j, board)) {
-                result = board[i][j];
-                location_x = i + 1;
-                location_y = j + 1;
-                return { result, {location_x, location_y} };
-            }
-            //대각선 왼쪽 아래로 같은 색의 바둑알이 5개 연속 놓인 경우가 있을 때
-            if (diagonal_left(i, j, board)) {
-                result = board[i][j];
-                location_x = i + 5;
-                location_y = j - 3;
-                return { result, {location_x, location_y} };
+            for (int k = 0; k < 4; k++) {
+                result = checkContinuity(i, j, k, board);
+                if (result != 0) {
+                    location_x = i + 1;
+                    location_y = j + 1;
+                    return { result, {location_x, location_y} };
+                }
             }
         }
     }
@@ -103,7 +84,7 @@ int main() {
     }
 
     //연산
-    answer = checkWinner(board);
+    answer = findWinner(board);
 
     //출력
     cout << answer.first << '\n';

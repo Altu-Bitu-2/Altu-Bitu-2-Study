@@ -20,7 +20,7 @@ void postorder(int v) {
 }
 
 int main() {
-    int node, root = 0, temp = 0;
+    int node, root = 0;
     vector<int> arr;
 
     //입력
@@ -28,24 +28,22 @@ int main() {
         arr.push_back(node);
     }
 
-    root = arr[0];
-
     for (int j = 1; j < arr.size(); j++) {
-        temp = root;
+        root = arr[0];
         while (true) {
-            if (arr[j] < temp) { //삽입할 노드가 루트 노드보다 값이 작을 때
-                if (tree[temp].first == NULL) { //루트 노드에 왼쪽 자식이 비어있을 때
-                    tree[temp].first = arr[j];
+            if (arr[j] < root) { //삽입할 노드가 루트 노드보다 값이 작을 때
+                if (tree[root].first == NULL) { //루트 노드에 왼쪽 자식이 비어있을 때
+                    tree[root].first = arr[j];
                     break;
                 }
-                temp = tree[temp].first; //다음 루트 -> 왼쪽 자식
+                root = tree[root].first; //다음 루트 -> 왼쪽 자식
             }
             else { //삽입할 노드가 루트 노드보다 값이 클 때
-                if (tree[temp].second == NULL) { //루트 노드에 오른쪽 자식이 비어있을 때
-                    tree[temp].second = arr[j];
+                if (tree[root].second == NULL) { //루트 노드에 오른쪽 자식이 비어있을 때
+                    tree[root].second = arr[j];
                     break;
                 }
-                temp = tree[temp].second; //다음 루트 -> 오른쪽 자식
+                root = tree[root].second; //다음 루트 -> 오른쪽 자식
             }
         }
     }
